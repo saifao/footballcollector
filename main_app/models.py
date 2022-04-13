@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 POS = (('F', 'Forward'),('M', 'Midfielder'),('LB/RB', 'Left/Right Back'),('CB', 'Center Back'))
 
@@ -13,3 +14,5 @@ class Player(models.Model):
     def __str__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('player', kwargs={'player_id': self.id})

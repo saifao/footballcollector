@@ -9,6 +9,10 @@
         <p>Market Value: {{ player.mkt_value }}</p>
         <p>Contract Exp Date: {{ player.contract_exp }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'update_player' player.id %}">Edit</a>
+        <a href="{% url 'delete_player' player.id %}">Delete</a>
+    </div>
 </div>
 
 {% endblock %}
