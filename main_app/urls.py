@@ -9,4 +9,5 @@ urlpatterns = [
     path('footballers/create', views.EnterPlayer.as_view(), name='enter_player'),
     path('footballers/<int:pk>/update/', views.UpdatePlayer.as_view(), name='update_player'),
     path('footballers/<int:pk>/delete/', views.DeletePlayer.as_view(), name='delete_player'),
+    path('footballers/<int:player_id>/add_wage/', views.add_wage, name='add_wage'),
 ]

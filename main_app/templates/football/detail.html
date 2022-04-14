@@ -1,18 +1,54 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="card">
-    <div class="card-content">
-        <span class="card-title">{{ player.name }}</span>
-        <p>Age: {{ player.age }}</p>
-        <p>Position: {{ player.position }}</p>
-        <p>Market Value: {{ player.mkt_value }}</p>
-        <p>Contract Exp Date: {{ player.contract_exp }}</p>
+<div class="row">
+    <div class="col s6">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ player.name }}</span>
+                <p>Age: {{ player.age }}</p>
+                <p>Position: {{ player.position }}</p>
+                <p>Market Value: {{ player.mkt_value }}</p>
+                <p>Contract Exp Date: {{ player.contract_exp }}</p>
+            </div>
+            <div class="card-action">
+                <a href="{% url 'update_player' player.id %}">Edit</a>
+                <a href="{% url 'delete_player' player.id %}">Delete</a>
+            </div>
+        </div>
     </div>
-    <div class="card-action">
-        <a href="{% url 'update_player' player.id %}">Edit</a>
-        <a href="{% url 'delete_player' player.id %}">Delete</a>
+    <div class="col s6">
+        <form method="POST" action="{% url 'add_wage' player.id %}">
+            {% csrf_token %}
+            {{ wage_form.as_p }}
+            <input type="submit" class="btn" value="Add Wages">
+        </form>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Salary Amount</th>
+                    <th>Date Paid</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paystub in player.wage_set.all %}
+                <tr>
+                    <td>{{paystub.amount}}</td>
+                    <td>{{paystub.payday}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 
+<script>
+    const dateEl = document.getElementById('id_payday');
+    M.Datepicker.init(dateEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    });
+</script>
 {% endblock %}
