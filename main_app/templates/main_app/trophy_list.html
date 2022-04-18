@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Trophy List</h1>
+
+{% for trophy in trophy_list %}
+<a href="{% url 'trophies_detail' trophy.id %}">
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">{{ trophy.title }}</span>
+        </div>
+    </div>
+</a>
+{% endfor %}
+
+{% endblock %}

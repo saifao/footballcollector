@@ -1,18 +1,28 @@
 from django.db import models
 from django.forms import IntegerField
 from django.urls import reverse
-from datetime import date
 from django.db.models import Sum
 
 POS = (('F', 'Forward'),('M', 'Midfielder'),('LB/RB', 'Left/Right Back'),('CB', 'Center Back'))
 
-# Create your models here.
+class Trophy(models.Model):
+    title = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        print(self)
+        return reverse('trophies_detail', kwargs={'pk': self.id})
+
+
 class Player(models.Model):
     name = models.CharField('Player Name', max_length=100)
     age = models.IntegerField()
     position = models.CharField(max_length=10, choices=POS)
     mkt_value = models.IntegerField('Market Value')
     contract_exp = models.DateField('Contract Expiration')
+    titles = models.ManyToManyField(Trophy)
 
     def __str__(self):
         return self.name
@@ -32,4 +42,5 @@ class Wage(models.Model):
         return f"${self.amount} paid on {self.payday}"
     
     class Meta:
-        ordering = ['-date']
+        ordering = ['-payday']
+
